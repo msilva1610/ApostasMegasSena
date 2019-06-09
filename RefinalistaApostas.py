@@ -7,12 +7,17 @@ from GeraTodasApostas import Apostas
 def CalculaMultiplos(dezenas):
     tot_m = 0
     multiplos = {}
-    multiplos['de'] = []
-    for m in range(2,30):
+    multiplos['de'] = []    
+    for m in range(2,31):    
+        tot_m = 0
         for d in dezenas:
-            if d % m == 0:
-                tot_m += 1       
-        multiplos['de'].append({m: tot_m})       
+            if d >= m:
+                if d % m == 0:
+                    #Essa dezena (d) é multiplo de m
+                    tot_m += 1
+        if tot_m > 1:
+            multiplos['de'].append({str(m):tot_m})
+    return multiplos
 
 
 def ValidaFibonacci(dezenas):
@@ -99,6 +104,8 @@ def ValidaApostas(ListaDeApostas):
     for aposta in ListaDeApostas:
         idAposta += 1
         tot += 1
+        # Remove parentenses por chaves. com chaves n'ao gera erro no json
+        aposta = list(aposta)
         # 01 e 02 Calcula Dezenas Impares e Pares - 04 Soma dezenas
         impares, pares, somadasdezenas = CalculaParImparSomaDez(aposta)
         # 05 Soma digitos das Dezenas
@@ -112,23 +119,22 @@ def ValidaApostas(ListaDeApostas):
         # qtdeDezFinonacci = 0
         qtdeDezFinonacci = ValidaFibonacci(aposta)
         # 08 Valida se dezenas tem multiplos
+
         multiplos = CalculaMultiplos(aposta)
 
         ListaRefinada['apostas'].append({
             'id': idAposta, 'aposta': aposta, 'impares': impares, 'pares':pares, 'SomaDasDezenas':somadasdezenas, 'SomaDosDigitosDaDezena':SomaDosDigitosDaDezena, 'TotalDePrimos': TotalDePrimos, 'Quadrantes': q,
-            'DezenasFibonacci': qtdeDezFinonacci, 'multiplos':multiplos
+            'DezenasFibonacci': qtdeDezFinonacci, 'multiplos':multiplos['de']
             })
         #if tot == 1000000:
-        if tot == 1000:
+        if tot == 10000:
             TempoFinalLote = datetime.datetime.now()
             TempoLote = TempoFinalLote - TempoInicialLote
             print('{} Apostas validadas. Tempo do lote {} - Hora: {}'.format(idAposta,TempoLote,datetime.datetime.now()))
             tot = 0
             TempoInicialLote = datetime.datetime.now()
+            break
     return ListaRefinada
-            
-
-            
 
 if __name__ == '__main__':
     dezenas = 6
