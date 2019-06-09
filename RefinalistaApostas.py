@@ -4,6 +4,13 @@ import datetime
 
 from GeraTodasApostas import Apostas
 
+def SomaDigitosDezenas(dezenas):
+    strdezena = str(dezenas)
+        for s in strdezena:
+            soma_dos_digitos_das_dezenas += int(s)
+    return  soma_dos_digitos_das_dezenas
+
+
 def SomaDezenas(dezenas):
     soma = 0
     for d in dezenas:
@@ -11,7 +18,7 @@ def SomaDezenas(dezenas):
     return soma
 
 
-def CalculaParImpar(dezenas):
+def CalculaParImparSomaDez(dezenas):
     impares = 0
     pares = 0
     SomaDezenas = 0
@@ -36,12 +43,12 @@ def ValidaApostas(ListaDeApostas):
     for aposta in ListaDeApostas:
         idAposta += 1
         tot += 1
-        # 01 e 02 Calcula Dezenas Impares e Pares
-        impares, pares, somadasdezenas = CalculaParImpar(aposta)
-        # 03 Soma das Dezenas
-        # somadasdezenas = SomaDezenas(aposta)
+        # 01 e 02 Calcula Dezenas Impares e Pares - 04 Soma dezenas
+        impares, pares, somadasdezenas = CalculaParImparSomaDez(aposta)
+        # 05 Soma digitos das Dezenas
+        SomaDosDigitosDaDezena = SomaDigitosDezenas(aposta)
         ListaRefinada['apostas'].append({
-            'id': idAposta, 'aposta': aposta, 'impares': impares, 'pares':pares, 'SomaDasDezenas':somadasdezenas
+            'id': idAposta, 'aposta': aposta, 'impares': impares, 'pares':pares, 'SomaDasDezenas':somadasdezenas, 'SomaDosDigitosDaDezena':SomaDosDigitosDaDezena
             })
         if tot == 1000000:
             print(idAposta)
