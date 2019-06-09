@@ -4,14 +4,23 @@ import datetime
 
 from GeraTodasApostas import Apostas
 
+def ValidaFibonacci(dezenas):
+    totFibo = 0
+    Fibonacci = [1, 2, 3, 5, 8, 13, 21, 34, 55]
+    for d in dezenas:
+        if d in Fibonacci:
+            totFibo += 1
+    return totFibo
+
+
 def ValidaDezenaNoQuadrante(dezenas):
     qtde_q1, qtde_q2,qtde_q3, qtde_q4 = 0, 0, 0, 0
     quadrante = {}
     quadrante['quadrantes'] = []
-    q1 = [1,2,3,4,5,11,12,13,14,15,21,22,23,24,25]
-    q2 = [6,7,8,9,10,16,17,18,19,20,26,27,28,29,30]
-    q3 = [31,32,33,34,35,41,42,43,44,45,51,52,53,54,55]
-    q4 = [36,37,38,39,40,46,47,48,49,50,56,57,58,59,60]
+    q1 = {1,2,3,4,5,11,12,13,14,15,21,22,23,24,25}
+    q2 = {6,7,8,9,10,16,17,18,19,20,26,27,28,29,30}
+    q3 = {31,32,33,34,35,41,42,43,44,45,51,52,53,54,55}
+    q4 = {36,37,38,39,40,46,47,48,49,50,56,57,58,59,60}
     for d in dezenas:
         if d in q1:
             qtde_q1 += 1
@@ -68,11 +77,14 @@ def ValidaApostas(ListaDeApostas):
     Valida Aposta: 
         Impares e Pares Duração: 0:02:53.174411
         Com soma Dezenas: 0:03:21.039748
+        Até o Valida fibonacci o tempo médio para 1.000k é de 12 segundos
     '''
     tot = 0
     idAposta = 0
     ListaRefinada = {}
     ListaRefinada['apostas'] = []
+    TempoInicialLote = datetime.datetime.now()
+    print('Loop nas apostas iniciado...{}'.format(datetime.datetime.now()))
     for aposta in ListaDeApostas:
         idAposta += 1
         tot += 1
@@ -83,14 +95,22 @@ def ValidaApostas(ListaDeApostas):
         # 06 Total de Numeros Primos nas dezenas
         TotalDePrimos = ContaPrimos(aposta)
         # 06 Dezenas nos Quadrantes
+        # q = 0
         q = ValidaDezenaNoQuadrante(aposta)
+        # 07 Valida Fibonacci
+        # qtdeDezFinonacci = 0
+        qtdeDezFinonacci = ValidaFibonacci(aposta)
 
         ListaRefinada['apostas'].append({
-            'id': idAposta, 'aposta': aposta, 'impares': impares, 'pares':pares, 'SomaDasDezenas':somadasdezenas, 'SomaDosDigitosDaDezena':SomaDosDigitosDaDezena, 'TotalDePrimos': TotalDePrimos, 'Quadrantes': q
+            'id': idAposta, 'aposta': aposta, 'impares': impares, 'pares':pares, 'SomaDasDezenas':somadasdezenas, 'SomaDosDigitosDaDezena':SomaDosDigitosDaDezena, 'TotalDePrimos': TotalDePrimos, 'Quadrantes': q,
+            'DezenasFibonacci': qtdeDezFinonacci
             })
         if tot == 1000000:
-            print(idAposta)
+            TempoFinalLote = datetime.datetime.now()
+            TempoLote = TempoFinalLote - TempoInicialLote
+            print('{} Apostas validadas. Tempo do lote {} - Hora: {}'.format(idAposta,TempoLote,datetime.datetime.now()))
             tot = 0
+            TempoInicialLote = datetime.datetime.now()
     return ListaRefinada
             
 
