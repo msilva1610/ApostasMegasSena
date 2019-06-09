@@ -5,9 +5,10 @@ import datetime
 from GeraTodasApostas import Apostas
 
 def SomaDigitosDezenas(dezenas):
+    soma_dos_digitos_das_dezenas = 0
     strdezena = str(dezenas)
-        for s in strdezena:
-            soma_dos_digitos_das_dezenas += int(s)
+    for s in strdezena:
+        soma_dos_digitos_das_dezenas += int(s)
     return  soma_dos_digitos_das_dezenas
 
 
