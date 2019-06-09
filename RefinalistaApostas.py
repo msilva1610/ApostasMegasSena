@@ -4,6 +4,17 @@ import datetime
 
 from GeraTodasApostas import Apostas
 
+def CalculaMultiplos(dezenas):
+    tot_m = 0
+    multiplos = {}
+    multiplos['de'] = []
+    for m in range(2,30):
+        for d in dezenas:
+            if d % m == 0:
+                tot_m += 1       
+        multiplos['de'].append({m: tot_m})       
+
+
 def ValidaFibonacci(dezenas):
     totFibo = 0
     Fibonacci = [1, 2, 3, 5, 8, 13, 21, 34, 55]
@@ -100,12 +111,15 @@ def ValidaApostas(ListaDeApostas):
         # 07 Valida Fibonacci
         # qtdeDezFinonacci = 0
         qtdeDezFinonacci = ValidaFibonacci(aposta)
+        # 08 Valida se dezenas tem multiplos
+        multiplos = CalculaMultiplos(aposta)
 
         ListaRefinada['apostas'].append({
             'id': idAposta, 'aposta': aposta, 'impares': impares, 'pares':pares, 'SomaDasDezenas':somadasdezenas, 'SomaDosDigitosDaDezena':SomaDosDigitosDaDezena, 'TotalDePrimos': TotalDePrimos, 'Quadrantes': q,
-            'DezenasFibonacci': qtdeDezFinonacci
+            'DezenasFibonacci': qtdeDezFinonacci, 'multiplos':multiplos
             })
-        if tot == 1000000:
+        #if tot == 1000000:
+        if tot == 1000:
             TempoFinalLote = datetime.datetime.now()
             TempoLote = TempoFinalLote - TempoInicialLote
             print('{} Apostas validadas. Tempo do lote {} - Hora: {}'.format(idAposta,TempoLote,datetime.datetime.now()))
