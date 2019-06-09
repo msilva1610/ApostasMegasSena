@@ -3,6 +3,15 @@ import sys
 import datetime
 
 from GeraTodasApostas import Apostas
+  
+def ContaPrimos(dezenas):
+    NumerosPrimos = [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59]
+    totPrimos = 0
+    for d in dezenas:
+        if d in NumerosPrimos:
+            totPrimos += 1
+    return totPrimos
+
 
 def SomaDigitosDezenas(dezenas):
     soma_dos_digitos_das_dezenas = 0
@@ -49,8 +58,10 @@ def ValidaApostas(ListaDeApostas):
         impares, pares, somadasdezenas = CalculaParImparSomaDez(aposta)
         # 05 Soma digitos das Dezenas
         SomaDosDigitosDaDezena = SomaDigitosDezenas(aposta)
+        # 06 Total de Numeros Primos nas dezenas
+        TotalDePrimos = ContaPrimos(aposta)
         ListaRefinada['apostas'].append({
-            'id': idAposta, 'aposta': aposta, 'impares': impares, 'pares':pares, 'SomaDasDezenas':somadasdezenas, 'SomaDosDigitosDaDezena':SomaDosDigitosDaDezena
+            'id': idAposta, 'aposta': aposta, 'impares': impares, 'pares':pares, 'SomaDasDezenas':somadasdezenas, 'SomaDosDigitosDaDezena':SomaDosDigitosDaDezena, 'TotalDePrimos': TotalDePrimos
             })
         if tot == 1000000:
             print(idAposta)
